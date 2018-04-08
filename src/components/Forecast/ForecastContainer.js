@@ -1,19 +1,22 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import axios from "axios";
 import * as utils from "../../utils/helpers";
 
-import {
-  VictoryGroup,
-  VictoryChart,
-  VictoryBar,
-  VictoryAxis,
-  VictoryTheme
-} from "victory";
+// import {
+//   VictoryGroup,
+//   VictoryChart,
+//   VictoryBar,
+//   VictoryAxis,
+//   VictoryTheme
+// } from "victory";
 
-import ForecastRow from "./ForecastRow";
-import ForecastCard from "./ForecastCard";
-import ForecastRowHourly from "./ForecastRowHourly";
-import ForecastCardHourly from "./ForecastCardHourly";
+// import ForecastRow from "./ForecastRow";
+// import ForecastCard from "./ForecastCard";
+import ForecastCardHourlyWrapper from "./ForecastCardHourlyWrapper";
+import InitialForecast from "./InitialForecast";
+// import ForecastRowHourly from "./ForecastRowHourly";
+// import ForecastCardHourly from "./ForecastCardHourly";
 
 export default class ForecastContainer extends Component {
   constructor(props) {
@@ -189,10 +192,10 @@ export default class ForecastContainer extends Component {
   };
 
   render() {
-    const style = {
-      maxWidth: "70%",
-      margin: "0 auto"
-    };
+    // const style = {
+    //   maxWidth: "70%",
+    //   margin: "0 auto"
+    // };
     return (
       <div>
         {this.state.located ? (
@@ -213,20 +216,12 @@ export default class ForecastContainer extends Component {
         <div>
           {this.state.location && <h2>{this.state.location.name}</h2>}
           {this.state.forecast.length ? (
-            <ForecastRow>
-              {this.state.forecast.map(day => {
-                return (
-                  <ForecastCard
-                    key={day.dt}
-                    day={day}
-                    active={day.active}
-                    handleOnClick={d => {
-                      this.handleHourlyForecast(d);
-                    }}
-                  />
-                );
-              })}
-            </ForecastRow>
+            <InitialForecast
+              forecast={this.state.forecast}
+              handleOnClick={d => {
+                this.handleHourlyForecast(d);
+              }}
+            />
           ) : (
             <div>
               {this.state.located ? null : <p>Get your 5-day forecast!</p>}
@@ -234,80 +229,12 @@ export default class ForecastContainer extends Component {
           )}
         </div>
         {this.state.hourlyForecastList.length && this.state.displayHourly ? (
-          <div>
-            <ForecastRowHourly>
-              {this.state.hourlyForecastList.map(day => {
-                return <ForecastCardHourly key={day.dt} day={day} />;
-              })}
-            </ForecastRowHourly>
-            <div style={style}>
-              <VictoryChart
-                theme={VictoryTheme.material}
-                domainPadding={{ x: 20 }}
-                height={200}
-                style={{
-                  data: { opacity: 0.7 },
-                  text: {
-                    fontFamily: "'Open Sans', Arial, sans-serif !important",
-                    fontSize: "8px !important"
-                  }
-                }}
-              >
-                <VictoryAxis
-                  crossAxis
-                  theme={VictoryTheme.material}
-                  standalone={false}
-                  label="Time"
-                  style={{
-                    axis: { stroke: "#f5f5f5" },
-                    axisLabel: { fontSize: 8, padding: 30 },
-                    tickLabels: { fontSize: 6, padding: 5 }
-                  }}
-                />
-                <VictoryAxis
-                  dependentAxis
-                  crossAxis
-                  theme={VictoryTheme.material}
-                  standalone={false}
-                  label="Temp (Fahrenheit)"
-                  style={{
-                    axis: { stroke: "#f5f5f5" },
-                    axisLabel: { fontSize: 8, padding: 30 },
-                    tickLabels: { fontSize: 6, padding: 5 }
-                  }}
-                />
-                <VictoryGroup
-                  animate={{
-                    duration: 250,
-                    onLoad: { duration: 250 }
-                  }}
-                  offset={7}
-                  colorScale={[
-                    "rgb(24, 100, 156)",
-                    "rgb(68, 176, 227)",
-                    "rgb(144, 209, 240)"
-                  ]}
-                >
-                  <VictoryBar
-                    alignment="start"
-                    barRatio={0.2}
-                    data={this.handleDailyTempChart("high")}
-                  />
-                  <VictoryBar
-                    alignment="start"
-                    barRatio={0.2}
-                    data={this.handleDailyTempChart("avg")}
-                  />
-                  <VictoryBar
-                    alignment="start"
-                    barRatio={0.2}
-                    data={this.handleDailyTempChart("low")}
-                  />
-                </VictoryGroup>
-              </VictoryChart>
-              <p>Daily Temperatures</p>
-            </div>
-          </div>
+          <ForecastCardHourlyWrapper
+            data={this.state.hourlyForecastList}
+            gethigh={() => this.handleDailyTempChart("high")}
+            getlow={() => this.handleDailyTempChart("low")}
+            getavg={() => this.handleDailyTempChart("avg")}
+          />
         ) : (
           <div>
             {this.state.hourlyForecastList.length === 0 ? (

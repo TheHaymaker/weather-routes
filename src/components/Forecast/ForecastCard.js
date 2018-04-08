@@ -1,17 +1,21 @@
 import React from "react";
-import Moment from "react-moment";
+import { Route, Link } from "react-router-dom";
+import moment from "moment";
+// import Moment from "react-moment";
+import ForeCastCardHourlyWrapper from "./ForecastCardHourlyWrapper";
 import * as utils from "../../utils/helpers";
 import "./ForecastCard.css";
 
 const ForecastCard = ({ day, handleOnClick, active }) => {
+  const dayName = String.prototype.toLowerCase(
+    moment(day.dt_txt).format("ddd")
+  );
   return (
     <div
       onClick={() => handleOnClick(day)}
       className={`forecast-card ${active ? "forecast-card__active" : ""}`}
     >
-      <p className="day">
-        <Moment format={"ddd"}>{day.dt_txt}</Moment>
-      </p>
+      <p className="day">{dayName}</p>
       <div className="weather-icon">
         <i className={utils.buildIcon(day)} />
       </div>
