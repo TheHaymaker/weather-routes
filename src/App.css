@@ -1,0 +1,55 @@
+body {
+  padding-bottom: 100px;
+}
+
+.App {
+  text-align: center;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.App-header {
+  background-color: #222;
+  height: 50px;
+  padding: 20px;
+  color: white;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.App-title {
+  font-size: 1.5em;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.App-intro {
+  font-size: large;
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+label {
+  display: block;
+  text-transform: uppercase;
+  font-size: 10px;
+  max-width: 220px;
+  margin: 0 auto;
+}
+
+#zipcode {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  display: block;
+  width: 25%;
+  margin: 0 auto;
+  padding: 5px 20px;
+}
+
+button {
+  font-family: "Open Sans", Arial, sans-serif;
+  border: 1px solid grey;
+  padding: 5px 23px;
+  font-size: 12px;
+  text-transform: uppercase;
+  display: block;
+  margin: 0 auto;
+  margin-top: 0px;
+  margin-top: 5px;
+}
