@@ -7,15 +7,14 @@ import * as utils from "../../utils/helpers";
 import "./ForecastCard.css";
 
 const ForecastCard = ({ day, handleOnClick, active }) => {
-  const dayName = String.prototype.toLowerCase(
-    moment(day.dt_txt).format("ddd")
-  );
+  const dayName = moment(day.dt_txt).format("ddd");
+
   return (
     <div
       onClick={() => handleOnClick(day)}
       className={`forecast-card ${active ? "forecast-card__active" : ""}`}
     >
-      <p className="day">{dayName}</p>
+      <p className="day">{dayName.toLowerCase()}</p>
       <div className="weather-icon">
         <i className={utils.buildIcon(day)} />
       </div>
